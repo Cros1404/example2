@@ -1,7 +1,7 @@
 <?php 
 include "connection.php";
-$btn=$_POST['btnAdd'];
-if (isset($btn))
+
+if (isset($_POST['btnAdd']))
 {
     $add = $db -> prepare("INSERT INTO customers (firstname, lastname, streetaddress) VALUES (:fn, :ln, :ad)");
     $add -> bindParam(':fn', $fn);
@@ -17,16 +17,18 @@ if (isset($btn))
 <h2>Customers</h2>
 <table border='1'>
     <tr>
-        <th>Firstname</th><th>Lastname</th><th>StreetAddress</th>
+        <th>Firstname</th><th>Lastname</th><th>StreetAddress</th><th>Edit</th>
     </tr>
 <?php 
 include "connection.php";
-$myquery = "SELECT firstname, lastname, streetaddress FROM customers";
+$myquery = "SELECT firstname, lastname, streetaddress, id_customers FROM customers";
 $customers_data = $db -> query($myquery);
 
 foreach ($customers_data as $row)
 {
-    echo '<tr><td>'.$row['firstname'].'</td><td>'.$row['lastname'].'</td><td>'.$row['streetaddress'].'</td></tr>';
+    echo '<tr><td>'.$row['firstname'].'</td><td>'.$row['lastname'].'</td><td>'.$row['streetaddress'].'</td>';
+    echo '<td><a href="update_customer.php?id='.$row['id_customers'].'"><button>Update</button></a></td>';
+    echo '</tr>';
 }
 ?>
 </table>
